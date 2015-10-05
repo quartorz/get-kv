@@ -25,4 +25,4 @@ mkdir -p $1 &&
 echo "extracting..." &&
 tar -zxvf /tmp/kv-latest.tar.gz --directory /tmp &&
 echo "copying..." &&
-cp -rfav /tmp/kv-$LATEST_VERSION/kv $1/
+cp -rfav /tmp/kv-$LATEST_VERSION/kv $1
