@@ -1,2 +1,2 @@
-install: `make install`
+install: `make install`  
 uninstall: `make uninstall`
