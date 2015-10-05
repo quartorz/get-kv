@@ -13,14 +13,12 @@ if [ -z ${LATEST_VERSION} ]; then
 fi
 
 echo "Latest version: $LATEST_VERSION"
-echo "download from http://verifiedby.me/kv/download/kv-$LATEST_VERSION.tar.gz"
+echo "download http://verifiedby.me/kv/download/kv-$LATEST_VERSION.tar.gz"
 
 if  !(curl "http://verifiedby.me/kv/download/kv-$LATEST_VERSION.tar.gz" > /tmp/kv-latest.tar.gz); then
 	echo "failed to download"
 	exit 1
 fi
-
-echo "download completed"
 
 rm /tmp/kv-$LATEST_VERSION
 mkdir -p $1 &&
