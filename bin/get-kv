@@ -1,0 +1,30 @@
+#! /bin/sh
+
+if [ $# -lt 1 ]; then
+	echo "usage: $(basename $0) destination"
+	exit 1
+fi
+
+LATEST_VERSION=$(curl "http://verifiedby.me/kv/download/" 2>/dev/null | awk 'match($0, /kv-[0-9.]+.tar.gz/) {print substr($0, RSTART, RLENGTH)}' | awk 'match($0, /[0-9]+.[0-9]+(.[0-9]+)?/) {print substr($0, RSTART, RLENGTH)}' | sort -t '.' -k 1n,1 -k 2n,2 -k 3n,3 | tail -1)
+
+if [ -z ${LATEST_VERSION} ]; then
+	echo "failed to access http://verifiedby.me/kv/download/"
+	exit 1
+fi
+
+echo "Latest version: $LATEST_VERSION"
+echo "download from http://verifiedby.me/kv/download/kv-$LATEST_VERSION.tar.gz"
+
+if  !(curl "http://verifiedby.me/kv/download/kv-$LATEST_VERSION.tar.gz" > /tmp/kv-latest.tar.gz); then
+	echo "failed to download"
+	exit 1
+fi
+
+echo "download completed"
+
+rm /tmp/kv-$LATEST_VERSION
+mkdir -p $1 &&
+echo "extracting..." &&
+tar -zxvf /tmp/kv-latest.tar.gz --directory /tmp &&
+echo "copying..." &&
+cp -rfav /tmp/kv-$LATEST_VERSION/kv $1/
